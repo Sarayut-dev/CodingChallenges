@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Hook Implementation </title>
+
+    <style>
+        .wrap-content{
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="wrap-content"></div>
+    <script>
+        /*
+        Create a useLocalStorage hook that:
+        1. Reads initial value from localStorage
+        2. Updates localStorage when value changes
+        3. Provides getter and setter functions
+        4. Handles JSON serialization/deserialization
+        5. Provides error handling for invalid JSON
+
+        Example usage:
+        const [count, setCount] = useLocalStorage('count', 0);
+        const [user, setUser] = useLocalStorage('user', { name: '', email: '' });
+        */
+
+        function useLocalStorage(key, initialValue) {
+            /*
+            Custom hook for localStorage state management
+            
+            Args:
+                key: String - localStorage key
+                initialValue: Any - default value if key doesn't exist
+            
+            Returns:
+                Array: [currentValue, setValue] - similar to React useState
+            */
+            // Your implementation here
+
+            let count = 0
+
+            var ItemLocal = localStorage.getItem(key);
+            console.log("Item_localstroragn", !(ItemLocal));
+            
+            if(ItemLocal){
+                count = JSON.parse(ItemLocal)
+            }else{
+                count = initialValue;
+            }
+
+            function setCount(func){
+                console.log("count", count);
+                
+                // count = func
+                if(typeof(func) !== "function"){
+                    count = func
+                }else{
+                    count = func(count)
+                }
+
+                localStorage.setItem(key, JSON.stringify(count));
+                return count;
+            }
+
+            return [count, setCount];
+        }
+
+        // Demo usage
+        function createCounterWithPersistence() {
+            const [count, setCount] = useLocalStorage('counter', 0);
+            // var Current = count;
+            const container = document.createElement('div');
+            container.innerHTML = `
+                <h3>Persistent Counter</h3>
+                <p>Count: <span id="count-display">${count}</span></p>
+                <button id="increment">+</button>
+                <button id="decrement">-</button>
+                <button id="reset">Reset</button>
+            `;
+            
+            // Add event listeners
+            // Your code here
+
+            const NewCount = container.querySelector("#count-display")
+            const ButtonIncrement = container.querySelector("#increment")
+            const ButtonDecrement = container.querySelector("#decrement")
+            const ButtonReset = container.querySelector("#reset")
+
+            ButtonIncrement.addEventListener('click', function() {
+                const newValue = setCount((increment) => increment + 1);
+                // Current = newValue
+                NewCount.textContent = newValue
+            })
+            ButtonDecrement.addEventListener('click', function() {
+                const newValue = setCount((decrement) => decrement - 1);
+                // const newValue = setCount(Current - 1);
+                // Current = newValue
+                NewCount.textContent = newValue
+            })
+            ButtonReset.addEventListener('click', function() {
+                const newValue = setCount(0);
+                // Current = 0
+                NewCount.textContent = newValue
+            })
+
+            
+            return container;
+        }
+        
+        const DivContent = document.getElementById("content")
+        DivContent.textContent = "";
+
+        let CreateCounter = createCounterWithPersistence();
+        DivContent.appendChild(CreateCounter)
+    </script>
+
+</body>
+</html>

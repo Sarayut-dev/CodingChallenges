@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Validation</title>
+    <style>
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <form id="login-form">
+        <div>
+            <label>Email:</label>
+            <input type="email" id="email" required>
+            <span id="email-error" class="error"></span>
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" id="password" required>
+            <span id="password-error" class="error"></span>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+    
+    <script>
+        /*
+        Validation Rules:
+        - Email: Must be valid email format
+        - Password: Minimum 8 characters, at least 1 uppercase, 1 lowercase, 1 number
+        */
+        // Your code here
+
+
+        function validateEmail(email){
+            const emailRegex = /^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/
+            return emailRegex.test(email);
+        }
+        function validatePassword(password){
+            const PasswordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/
+            return PasswordRegex.test(password);
+        }
+
+        function Submitform(){
+            const form = document.getElementById("login-form");
+            form.addEventListener('submit', function(event){
+                event.preventDefault();
+                const ElmEmail = document.getElementById("email").value;
+                const ElmPassword = document.getElementById("password").value;
+                const ErrorEmail = document.getElementById("email-error")
+                const ErrorPassword = document.getElementById("password-error");
+
+                if(!validateEmail(ElmEmail)){
+                    ErrorEmail.textContent = "Must be valid email format"
+                    ErrorEmail.className = "error";
+                }else{
+                    ErrorEmail.className = "success";
+                }
+
+                if(!validatePassword(ElmPassword)){
+                    ErrorPassword.textContent = "Minimum 8 characters, at least 1 uppercase, 1 lowercase, 1 number"
+                    ErrorPassword.className = "error";
+                }else{
+                    ErrorPassword.className = "success";
+                }
+                
+                return;
+            })
+        }
+
+        Submitform()
+    </script>
+</body>
+</html>

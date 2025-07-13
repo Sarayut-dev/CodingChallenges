@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo List</title>
+    <style>
+        .todo-item { margin: 10px 0; }
+        .completed { text-decoration: line-through; opacity: 0.6; }
+        .delete-btn { margin-left: 10px; color: red; cursor: pointer; }
+
+        ul{
+            li{
+                margin-top: 5px;
+                display: flex;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="todo-app">
+        <h2>Todo List</h2>
+        <div>
+            <input type="text" id="todo-input" placeholder="Enter a todo...">
+            <button id="add-btn">Add</button>
+        </div>
+        <ul id="todo-list"></ul>
+    </div>
+    
+    <script>
+        class TodoApp {
+            constructor() {
+                this.todos = [];
+                this.nextId = 1;
+                this.init();
+            }
+            
+            init() {
+                // Initialize event listeners and render
+                // Your code here
+
+                const buttonAdd = document.getElementById("add-btn")
+                buttonAdd.addEventListener('click', () => {
+                    const inp_value = document.getElementById("todo-input");
+                    if(inp_value.value && inp_value.value !== ''){
+                        this.addTodo(inp_value.value);
+                        inp_value.value = "";
+
+                    }
+                })
+            }
+            
+            addTodo(text) {
+                // Add new todo
+                // Your code here
+
+                this.todos.push({
+                    title:text,
+                    id:this.nextId,
+                    del_complete:false
+                });
+                this.nextId++;
+                this.render();
+            }
+            
+            deleteTodo(id) {
+                // Delete todo by id
+                // Your code here
+                
+                this.todos = this.todos.filter((val) => val.id !== id)
+                this.render();
+            }
+            
+            toggleComplete(id) {
+                // Toggle completion status
+                // Your code here
+
+                this.todos = this.todos.map((val) => 
+                    val.id === id ? {...val, del_complete : !val.del_complete} : val
+                )
+                this.render();
+            }
+            
+            render() {
+                // Render todo list
+                // Your code here
+
+                let List_ul = document.getElementById("todo-list");
+                List_ul.textContent = '';
+
+                if(this.todos.length > 0){
+                    for (let index = 0; index < this.todos.length; index++) {
+                        let data = this.todos[index];
+                        var ElmButton = document.createElement("BUTTON");
+                        ElmButton.textContent = "Delete";
+                        ElmButton.className = "delete-btn";
+
+                        var Elmli = document.createElement("LI");
+                        Elmli.innerHTML = data.title
+                        Elmli.appendChild(ElmButton)
+                        if(data.del_complete) Elmli.className = 'completed'
+                        
+                        List_ul.appendChild(Elmli)
+                        
+
+                        Elmli.addEventListener("click", () => {
+                            event.preventDefault();
+                            this.toggleComplete(data.id);
+                        })
+                        ElmButton.addEventListener("click", (event) => {
+                            event.preventDefault();
+                            this.deleteTodo(data.id);
+                        })
+                    }
+                }
+            }
+        }
+        
+        // Initialize app
+        const app = new TodoApp();
+    </script>
+</body>
+</html>

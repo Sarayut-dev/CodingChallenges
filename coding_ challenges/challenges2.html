@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Counter</title>
+</head>
+<body>
+    <button id="counter-btn">Count: 0</button>
+    
+    <script>
+        // Your JavaScript code here
+        function setupButtonCounter() {
+            // Implement counter functionality
+
+            var number = 0;
+            const ElmButton = document.getElementById("counter-btn");
+            ElmButton.addEventListener("click", function(){
+                number += 1;
+                ElmButton.textContent = "Count: " + number;
+
+            });
+        }
+        
+        // Initialize when page loads
+        setupButtonCounter();
+    </script>
+</body>
+</html>

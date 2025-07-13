@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Manipulation</title>
+</head>
+<style>
+    .btn{
+        width: 150px;
+        height: 45px;
+        padding: 5px;
+    }
+    .flex{
+        margin-top: 20px;
+        display: flex;
+        gap: 20px;
+    }
+    h4{
+        font-size: 16px;
+        line-height: 28px;
+        margin: 0;
+        font-weight: 400;
+    }
+</style>
+<body>
+    <div class="main-title">
+        <h2>Challenge 1: DOM Manipulation / ความท้าทายที่ 1: การจัดการ DOM</h2>
+        <h4>EN: Create a function that changes the background color of all elements with a specific class name.</h4>
+        <h4>TH: สร้างฟังก์ชันที่เปลี่ยนสีพื้นหลังของ element ทั้งหมดที่มี class name เฉพาะ</h4>
+    </div>
+    <div class="flex">
+        <button class="btn highlight" onclick="changeBackgroundColor('highlight', 'yellow')">Highlight</button>
+        <button class="btn error" onclick="changeBackgroundColor('error', '#ff0000')">Error</button>
+    </div>
+    
+    <script>
+        function changeBackgroundColor(className, color) {
+        /*
+        Change background color of all elements with given class name
+        
+        Args:
+            className: String - CSS class name
+            color: String - CSS color value
+        
+        Example:
+            changeBackgroundColor('highlight', 'yellow');
+            changeBackgroundColor('error', '#ff0000');
+        */
+        // Your code here
+    
+        const GetElementClass = document.getElementsByClassName(className);
+        for (let index = 0; index < GetElementClass.length; index++) {
+            const element = GetElementClass[index];
+            element.style.background = color;
+        }
+        
+    }
+    </script>
+</body>
+
+
+</html>
